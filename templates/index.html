@@ -1,31 +1,121 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Web Companion Chat</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container mt-5">
-      <h1 class="mb-4">👨🏻 Web Companion Chat</h1>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Conversation History</h5>
-          <div class="card-text">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .current-chat {
+            width: 75%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chat-history {
+            width: 25%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            overflow-y: auto;
+            border-left: 1px solid #ddd;
+        }
+
+        .messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .message.user {
+            background-color: #d9edf7;
+            text-align: right;
+        }
+
+        .message.assistant {
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .form-group input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 5px;
+            flex-grow: 1;
+        }
+
+        .form-group button {
+            padding: 10px 15px;
+        }
+
+        .clear-button {
+            margin-top: 20px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .chat-history h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="current-chat">
+            <div class="messages">
+                <h2>Current Chat</h2>
+                {% for role, content in history %}
+                    {% if loop.index == loop.length %}
+                        <div class="message {{ role }}">
+                            <strong>{{ role.capitalize() }}:</strong> {{ content }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <form action="{{ url_for('ask') }}" method="post" class="form-group">
+                <input type="text" name="query" placeholder="Ask something..." required>
+                <button type="submit">Send</button>
+            </form>
+            <form action="{{ url_for('clear') }}" method="post" class="clear-button">
+                <button type="submit">Clear History</button>
+            </form>
+        </div>
+        <div class="chat-history">
+            <h2>Past Chats</h2>
             {% for role, content in history %}
-              <p><strong>{{ 'User' if role == 'user' else 'Assistant' }}:</strong> {{ content }}</p>
+                {% if loop.index < loop.length %}
+                    <div class="message {{ role }}">
+                        <strong>{{ role.capitalize() }}:</strong> {{ content }}
+                    </div>
+                {% endif %}
             {% endfor %}
-          </div>
         </div>
-      </div>
-      <form method="POST" action="{{ url_for('ask') }}" class="mt-4">
-        <div class="form-group">
-          <input type="text" class="form-control" name="query" placeholder="Ask a question..." required>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-      <form method="POST" action="{{ url_for('clear') }}" class="mt-2">
-        <button type="submit" class="btn btn-danger">Clear Chat History</button>
-      </form>
     </div>
-  </body>
+</body>
 </html>
