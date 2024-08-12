@@ -1,0 +1,19 @@
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    word-wrap: break-word; /* Ensures text wraps within the container */
+    white-space: pre-wrap; /* Preserves whitespace formatting, including line breaks */
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.message.user {
+    background-color: #d9edf7;
+    text-align: right;
+}
+
+.message.assistant {
+    background-color: #f9f9f9;
+    text-align: left;
+}

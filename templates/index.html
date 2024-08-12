@@ -45,6 +45,10 @@
             margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
+            word-wrap: break-word; /* Ensure long words or code blocks break properly */
+            white-space: pre-wrap; /* Preserve line breaks and formatting */
+            background-color: #f9f9f9;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .message.user {
@@ -54,6 +58,7 @@
 
         .message.assistant {
             background-color: #f9f9f9;
+            text-align: left;
         }
 
         .form-group {
@@ -74,10 +79,6 @@
 
         .clear-button {
             margin-top: 20px;
-        }
-
-        .message {
-            margin-bottom: 10px;
         }
 
         .chat-history h2 {
